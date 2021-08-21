@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: k8s-personal-website-certificate
+spec:
+  domains:
+    - k8s.aaronlewis.dev

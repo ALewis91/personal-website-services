@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: profile-service
+  name: profile-service
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: profile-service
+  template:
+    metadata:
+      labels:
+        app: profile-service
+    spec:
+      containers:
+      - image: aaronlewis/profile-service:0.0.3-SNAPSHOT
+        imagePullPolicy: Always
+        name: profile-service
+        ports:
+        - containerPort: 8000
+          name: profile-service
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            port: 8000
+            path: /actuator/health/readiness
+          initialDelaySeconds: 90
+          periodSeconds: 90
+        livenessProbe:
+          httpGet:
+            port: 8000
+            path: /actuator/health/liveness
+          initialDelaySeconds: 90
+          periodSeconds: 90
+      restartPolicy: Always
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: profile-service
+  name: profile-service
+  namespace: default
+spec:
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: profile-service
+  sessionAffinity: None
+  type: NodePort

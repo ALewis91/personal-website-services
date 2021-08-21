@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: personal-website-ip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /user-service/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: personal-website-user-service
+            port:
+              number: 8200

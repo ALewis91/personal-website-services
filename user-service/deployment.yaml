@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: user-service
+  name: user-service
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - image: aaronlewis/user-service:0.0.10-SNAPSHOT
+        imagePullPolicy: Always
+        name: user-service
+        ports:
+        - containerPort: 8200
+          name: user-service
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            port: 8200
+            path: /actuator/health/readiness
+          initialDelaySeconds: 90
+          periodSeconds: 90
+        livenessProbe:
+          httpGet:
+            port: 8200
+            path: /actuator/health/liveness
+          initialDelaySeconds: 90
+          periodSeconds: 90
+      restartPolicy: Always
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: user-service
+  name: user-service
+  namespace: default
+spec:
+  ports:
+  - port: 8200
+    protocol: TCP
+    targetPort: 8200
+  selector:
+    app: user-service
+  sessionAffinity: None
+  type: NodePort 

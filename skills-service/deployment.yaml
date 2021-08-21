@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: skills-service
+  name: skills-service
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: skills-service
+  template:
+    metadata:
+      labels:
+        app: skills-service
+    spec:
+      containers:
+      - image: aaronlewis/skills-service:0.0.3-SNAPSHOT
+        imagePullPolicy: Always
+        name: skills-service
+        ports:
+        - containerPort: 8100
+          name: skills-service
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            port: 8100
+            path: /actuator/health/readiness
+          initialDelaySeconds: 90
+          periodSeconds: 90
+        livenessProbe:
+          httpGet:
+            port: 8100
+            path: /actuator/health/liveness
+          initialDelaySeconds: 90
+          periodSeconds: 90
+      restartPolicy: Always
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: skills-service
+  name: skills-service
+  namespace: default
+spec:
+  ports:
+  - port: 8100
+    protocol: TCP
+    targetPort: 8100
+  selector:
+    app: skills-service
+  sessionAffinity: None
+  type: NodePort 
+
