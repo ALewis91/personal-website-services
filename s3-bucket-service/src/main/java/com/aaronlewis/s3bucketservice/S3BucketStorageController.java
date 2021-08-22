@@ -21,18 +21,18 @@ public class S3BucketStorageController {
     @Autowired
     S3BucketStorageService service;
 
-    @GetMapping("/list/files")
+    @GetMapping("s3-bucket-service/list")
     public ResponseEntity<List<String>> getListOfFiles() {
         return new ResponseEntity<>(service.listFiles(), HttpStatus.OK);
     }
 
-    @PostMapping("/file/upload")
+    @PostMapping("s3-bucket-service/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("fileName") String fileName,
                                              @RequestParam("file") MultipartFile file) {
         return new ResponseEntity<>(service.uploadFile(fileName, file), HttpStatus.OK);
     }
     
-    @GetMapping(value = "/download/{filename}")
+    @GetMapping(value = "s3-bucket-service/download/{filename}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable String filename) {
         ByteArrayOutputStream downloadInputStream = service.downloadFile(filename);
 
@@ -60,7 +60,7 @@ public class S3BucketStorageController {
         }
     }
     
-    @GetMapping(value = "/delete/{filename}")
+    @GetMapping(value = "s3-bucket-service/delete/{filename}")
     public ResponseEntity<String> deleteFile(@PathVariable("filename") String filename) {
         return new ResponseEntity<>(service.deleteFile(filename), HttpStatus.OK);
     }

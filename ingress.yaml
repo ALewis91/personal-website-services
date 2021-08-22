@@ -30,4 +30,11 @@ spec:
             name: skills-service
             port:
               number: 8100
+      - path: /s3-bucket-service/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: s3-service
+            port:
+              number: 8300
 
