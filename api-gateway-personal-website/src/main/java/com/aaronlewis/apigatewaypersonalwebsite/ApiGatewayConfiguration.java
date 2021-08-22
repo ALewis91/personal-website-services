@@ -15,8 +15,6 @@ public class ApiGatewayConfiguration {
 				.route(p -> p.path("/health")
 						.uri("http://localhost:443/health"))
 				.route(p -> p.path("/**")
-						.filters(f -> f
-								.setRequestHeader("Access-Control-Allow-Origin", ""))
 						.uri("https://k8s.aaronlewis.dev:443/**"))
 				.build();
 	}
