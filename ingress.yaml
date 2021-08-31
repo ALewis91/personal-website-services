@@ -37,4 +37,11 @@ spec:
             name: s3-service
             port:
               number: 8300
+      - path: /experience-service/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: experience-svc
+            port:
+              number: 8400
 
