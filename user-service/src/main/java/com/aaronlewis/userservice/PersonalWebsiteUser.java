@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
 @Entity
 public class PersonalWebsiteUser {
 	
@@ -16,6 +17,7 @@ public class PersonalWebsiteUser {
 	@Column(unique=true)
 	private String email;
 	private String password;
+
 	
 	public PersonalWebsiteUser() {}
 
@@ -48,5 +50,4 @@ public class PersonalWebsiteUser {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 }

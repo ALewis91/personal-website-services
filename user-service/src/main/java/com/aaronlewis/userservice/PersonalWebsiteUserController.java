@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,7 +24,7 @@ public class PersonalWebsiteUserController {
 	@Autowired
 	private PersonalWebsiteUserRepository repository;
 
-	@GetMapping("/user-service")
+	@GetMapping("/user-service/login")
 	public Login login(
 			@RequestHeader(value="email") String email,
 			@RequestHeader(value="password") String password
@@ -47,7 +48,21 @@ public class PersonalWebsiteUserController {
 		return new Login(id);
 	}
 	
-	@PostMapping("/user-service")
+	@GetMapping("/user-service/{userId}")
+	public PersonalWebsiteUser retrieveUser( @PathVariable Long userId) {
+		
+		logger.info("retrieveUser called with userId {}", userId);
+		
+		Optional<PersonalWebsiteUser> optionalUser = repository.findById(userId);
+		if(optionalUser.isEmpty()) {
+			throw new PersonalWebsiteUserNotFoundException("id: " + userId);
+		}
+		
+		logger.info("User was found, returning user with id {}", userId);
+		return optionalUser.get();
+	}
+	
+	@PostMapping("/user-service/")
 	public ResponseEntity<Object> saveUser(@RequestBody PersonalWebsiteUser user) {
 		logger.info("attempted to save user with email {}", user.getEmail());
 		
