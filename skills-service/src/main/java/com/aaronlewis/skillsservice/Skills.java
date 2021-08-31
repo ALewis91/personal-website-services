@@ -8,6 +8,12 @@ public class Skills {
 	
 	Skills() {}
 
+	public Skills(List<Skill> skills, String environment) {
+		super();
+		this.skills = skills;
+		this.environment = environment;
+	}
+
 	public List<Skill> getSkills() {
 		return skills;
 	}

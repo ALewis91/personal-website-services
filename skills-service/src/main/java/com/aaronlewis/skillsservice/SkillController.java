@@ -35,12 +35,12 @@ public class SkillController {
 		
 		logger.info("retrieveSkill called for user with id {}", creatorId);
 		
-		List<Skill> skill = null;
-		skill = repository.findByCreatorId(creatorId);
+		List<Skill> skillList = null;
+		skillList = repository.findByCreatorId(creatorId);
 		String port = environment.getProperty("local.server.port");
 		String host = environment.getProperty("HOSTNAME");
 		Skills skills = new Skills();
-		skills.setSkills(skill);
+		skills.setSkills(skillList);
 		skills.setEnvironment(host + ':' + port);
 		return skills;
 	}
@@ -113,12 +113,13 @@ public class SkillController {
 		logger.info("attempted to delete skill of user with id {} and skill id {} ", creatorId, skillId);
 		
 		Optional<Skill> skillToDelete = repository.findById(skillId);
-		if (skillToDelete.isPresent()) {
+		if (skillToDelete.isPresent() && skillToDelete.get().getCreatorId() == creatorId) {
 			repository.delete(skillToDelete.get());
 			return new ResponseEntity<Object>(HttpStatus.OK);
 
 		} else {
-			throw new SkillNotFoundException("creatorId: " + creatorId + " skillId: " + skillId);
+			throw new SkillNotFoundException(
+					"creatorId: " + creatorId + " skillId: " + skillId);
 		}
 	}
 }
