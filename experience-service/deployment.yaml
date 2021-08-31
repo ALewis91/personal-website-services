@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: experience-svc
+  name: experience-svc
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: experience-svc
+  template:
+    metadata:
+      labels:
+        app: experience-svc
+    spec:
+      containers:
+      - image: aaronlewis/experience-service:0.0.2-SNAPSHOT
+        imagePullPolicy: Always
+        name: experience-service
+        ports:
+        - containerPort: 8400
+          name: experience-svc
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            port: 8400
+            path: /actuator/health/readiness
+          initialDelaySeconds: 90
+          periodSeconds: 90
+        livenessProbe:
+          httpGet:
+            port: 8400
+            path: /actuator/health/liveness
+          initialDelaySeconds: 90
+          periodSeconds: 90
+      restartPolicy: Always
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: experience-svc
+  name: experience-svc
+  namespace: default
+spec:
+  ports:
+  - port: 8400
+    protocol: TCP
+    targetPort: 8400
+  selector:
+    app: experience-svc
+  sessionAffinity: None
+  type: NodePort
