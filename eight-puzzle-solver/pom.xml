@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.aaronlewis</groupId>
 	<artifactId>eight-puzzle-solver</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>eight-puzzle-solver</name>
 	<description>Service for solving 8-puzzle</description>
 	<properties>
