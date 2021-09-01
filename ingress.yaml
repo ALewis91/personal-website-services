@@ -44,4 +44,10 @@ spec:
             name: experience-svc
             port:
               number: 8400
-
+      - path: /eight-puzzle-solver/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: puzzle-solver
+            port:
+              number: 8500
