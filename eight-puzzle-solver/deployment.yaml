@@ -15,9 +15,9 @@ spec:
         app: puzzle-service
     spec:
       containers:
-      - image: aaronlewis/eight-puzzle-solver:0.0.1-SNAPSHOT
+      - image: aaronlewis/eight-puzzle-solver:0.0.2-SNAPSHOT
         imagePullPolicy: Always
-        name: experience-service
+        name: puzzle-service
         ports:
         - containerPort: 8500
           name: puzzle-service
