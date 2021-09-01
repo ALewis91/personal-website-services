@@ -48,6 +48,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: puzzle-solver
+            name: puzzle-service
             port:
               number: 8500
+
