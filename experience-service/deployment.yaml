@@ -15,7 +15,7 @@ spec:
         app: experience-svc
     spec:
       containers:
-      - image: aaronlewis/experience-service:0.0.2-SNAPSHOT
+      - image: aaronlewis/experience-service:0.0.1-SNAPSHOT
         imagePullPolicy: Always
         name: experience-service
         ports:
